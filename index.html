@@ -353,7 +353,7 @@ aside{
     <div class="hint">
       <p data-i18n="controlsLine1"><span class="shortcut-row"><kbd>D</kbd><span>select</span></span><span class="shortcut-row"><kbd>S</kbd><span>square</span></span><span class="shortcut-row"><kbd>T</kbd><span>triangle</span></span><span class="shortcut-row"><kbd>A</kbd><span>stairs</span></span><span class="shortcut-row"><kbd>E</kbd><span>eraser</span></span></p>
       <p data-i18n="controlsLine2"><span class="shortcut-row"><kbd>R</kbd><span>rotate stairs</span></span><span class="shortcut-row"><kbd>Ctrl+Z</kbd><span>undo</span></span><span class="shortcut-row"><kbd>F</kbd><span>material cost</span></span></p>
-      <p data-i18n="controlsLine3"><kbd>1-9</kbd> / <kbd>& é " '</kbd> : floors · <kbd>Space</kbd> + left drag : pan · wheel : zoom</p>
+      <p data-i18n="controlsLine3"><span class="shortcut-row wide"><kbd>Space</kbd><span>left click drag: pan the view</span></span><span class="shortcut-row wide"><span>mouse wheel: zoom</span></span></p>
     </div>
   </div>
 
@@ -1201,9 +1201,9 @@ const translations = {
     appIntroText:"Exiled Architect est un pré-builder local pour créer tes plans de bases Conan Exiles avec fondations carrées et triangulaires. Construis, teste, sauvegarde, exporte et partage tes layouts facilement.",
     square:"Carré", triangle:"Triangle", stairs:"Escalier", eraser:"Gomme", forcePlace:"Forcer placement", selectMode:"Sélection", symmetry:"Symétrie OFF", exportPng:"Export PNG", shareCommunity:"Partager communauté", logoToggle:"Logo ON", downloadApp:"Télécharger App", resetView:"Reset vue", pan:"Déplacer", undo:"Annuler", clear:"Vider",
     sizeLabel:"Taille",
-    controlsLine1:`<span class="shortcut-row"><kbd>D</kbd><span>select</span></span><span class="shortcut-row"><kbd>S</kbd><span>square</span></span><span class="shortcut-row"><kbd>T</kbd><span>triangle</span></span><span class="shortcut-row"><kbd>A</kbd><span>stairs</span></span><span class="shortcut-row"><kbd>E</kbd><span>eraser</span></span>`,
-    controlsLine2:`<span class="shortcut-row"><kbd>R</kbd><span>rotate stairs</span></span><span class="shortcut-row"><kbd>Ctrl+Z</kbd><span>undo</span></span><span class="shortcut-row"><kbd>F</kbd><span>material cost</span></span>`,
-    controlsLine3:"Espace + clic gauche glissé : déplacer la vue · molette : zoom",
+    controlsLine1:`<span class="shortcut-row"><kbd>D</kbd><span>sélection</span></span><span class="shortcut-row"><kbd>S</kbd><span>carré</span></span><span class="shortcut-row"><kbd>T</kbd><span>triangle</span></span><span class="shortcut-row"><kbd>A</kbd><span>escalier</span></span><span class="shortcut-row"><kbd>E</kbd><span>gomme</span></span>`,
+    controlsLine2:`<span class="shortcut-row"><kbd>R</kbd><span>rotation escalier</span></span><span class="shortcut-row"><kbd>Ctrl+Z</kbd><span>annuler</span></span><span class="shortcut-row"><kbd>F</kbd><span>coût matériaux</span></span>`,
+    controlsLine3:`<span class="shortcut-row wide"><kbd>Espace</kbd><span>clic gauche glissé : déplacer la vue</span></span><span class="shortcut-row wide"><span>molette : zoom</span></span>`,
     advancedTitle:"Outils avancés",
     advancedText:"Mode Sélection : clique-glisse pour encadrer plusieurs pièces, puis Suppr pour supprimer le bloc. Mode Symétrie : place automatiquement une copie miroir autour de l’axe vertical du plan.",
     tipsTitle:"Conseils",
@@ -1243,9 +1243,9 @@ const translations = {
     appIntroText:"Exiled Architect is a local pre-builder for creating Conan Exiles base plans with square and triangle foundations. Build, test, save, export, and share your layouts easily.",
     square:"Square", triangle:"Triangle", stairs:"Stairs", eraser:"Eraser", forcePlace:"Force place", selectMode:"Select", symmetry:"Symmetry OFF", exportPng:"Export PNG", shareCommunity:"Share community", logoToggle:"Logo ON", downloadApp:"Download App", resetView:"Reset view", pan:"Move", undo:"Undo", clear:"Clear",
     sizeLabel:"Size",
-    controlsLine1:"S: square · T: triangle · R: stairs · E: eraser",
-    controlsLine2:"R: rotate stairs · Ctrl+Z: undo · F: material cost",
-    controlsLine3:"Space + left click drag: pan the view · mouse wheel: zoom",
+    controlsLine1:`<span class="shortcut-row"><kbd>D</kbd><span>select</span></span><span class="shortcut-row"><kbd>S</kbd><span>square</span></span><span class="shortcut-row"><kbd>T</kbd><span>triangle</span></span><span class="shortcut-row"><kbd>A</kbd><span>stairs</span></span><span class="shortcut-row"><kbd>E</kbd><span>eraser</span></span>`,
+    controlsLine2:`<span class="shortcut-row"><kbd>R</kbd><span>rotate stairs</span></span><span class="shortcut-row"><kbd>Ctrl+Z</kbd><span>undo</span></span><span class="shortcut-row"><kbd>F</kbd><span>material cost</span></span>`,
+    controlsLine3:`<span class="shortcut-row wide"><kbd>Space</kbd><span>left click drag: pan the view</span></span><span class="shortcut-row wide"><span>mouse wheel: zoom</span></span>`,
     advancedTitle:"Advanced tools",
     advancedText:"Selection mode: click and drag to select several pieces, then press Delete to remove the block. Symmetry mode automatically places a mirrored copy around the plan’s vertical axis.",
     tipsTitle:"Tips",
@@ -1276,21 +1276,7 @@ function applyLanguage(){
   document.querySelectorAll("[data-i18n]").forEach(el=>{
     const key = el.dataset.i18n;
     if(translations[currentLang][key]) {
-      if(key.startsWith("controlsLine")) {
-        el.innerHTML = translations[currentLang][key]
-          .replace("D:", "<kbd>D</kbd> :")
-          .replace("S:", "<kbd>S</kbd> :")
-          .replace("T:", "<kbd>T</kbd> :")
-          .replace("A:", "<kbd>A</kbd> :")
-          .replace("R:", "<kbd>R</kbd> :")
-          .replace("E:", "<kbd>E</kbd> :")
-          .replace("Ctrl+Z:", "<kbd>Ctrl+Z</kbd> :")
-          .replace("F:", "<kbd>F</kbd> :")
-          .replace("Espace", "<kbd>Espace</kbd>")
-          .replace("Space", "<kbd>Space</kbd>");
-      } else {
-        el.textContent = translations[currentLang][key];
-      }
+      if(key.startsWith("controlsLine")) { el.innerHTML = translations[currentLang][key]; } else { el.textContent = translations[currentLang][key]; }
     }
   });
   document.querySelectorAll("[data-i18n-placeholder]").forEach(el=>{
