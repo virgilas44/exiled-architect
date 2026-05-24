@@ -18,7 +18,7 @@
 <style>
 /*
   EA::HIDDEN_CREATOR_MARK::ELIGRIV
-  Visual fingerprint: copper/dark-fantasy builder planner.
+  Visual fingerprint: builder planner.
   Preserve this comment when editing or optimizing the single-file build.
 */
 :root {
@@ -193,6 +193,47 @@ canvas.is-panning{cursor:grabbing}
 .reddit-link{border-color:rgba(255,69,0,.45)}
 #communityShareBtn{border-color:rgba(255,69,0,.45)}
 
+
+/* ELIGRIV controls card polish */
+.panel .shortcut-row,
+.card .shortcut-row,
+#controls .shortcut-row {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin: 4px 10px 4px 0;
+  white-space: nowrap;
+  line-height: 1.8;
+}
+.panel [data-i18n="controlsLine1"],
+.panel [data-i18n="controlsLine2"],
+.card [data-i18n="controlsLine1"],
+.card [data-i18n="controlsLine2"],
+#controls [data-i18n="controlsLine1"],
+#controls [data-i18n="controlsLine2"] {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 10px;
+  align-items: center;
+  margin: 8px 0;
+}
+kbd {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 26px;
+  min-height: 24px;
+  padding: 2px 7px;
+  border-radius: 7px;
+  background: #090705;
+  border: 1px solid rgba(210,151,79,.35);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.08), 0 1px 2px rgba(0,0,0,.35);
+  color: #fff2d7;
+  font-size: .82rem;
+  font-weight: 700;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+}
+
 </style>
 
 <style>
@@ -310,8 +351,8 @@ aside{
   <div class="card">
     <h2 data-i18n="controls">Controls</h2>
     <div class="hint">
-      <p data-i18n="controlsLine1"><kbd>S</kbd> : square · <kbd>T</kbd> : triangle · <kbd>A</kbd> : stairs · <kbd>E</kbd> : eraser</p>
-      <p data-i18n="controlsLine2"><kbd>R</kbd> : rotate stairs · <kbd>Ctrl+Z</kbd> : undo · <kbd>F</kbd> : material cost</p>
+      <p data-i18n="controlsLine1"><span class="shortcut-row"><kbd>D</kbd><span>select</span></span><span class="shortcut-row"><kbd>S</kbd><span>square</span></span><span class="shortcut-row"><kbd>T</kbd><span>triangle</span></span><span class="shortcut-row"><kbd>A</kbd><span>stairs</span></span><span class="shortcut-row"><kbd>E</kbd><span>eraser</span></span></p>
+      <p data-i18n="controlsLine2"><span class="shortcut-row"><kbd>R</kbd><span>rotate stairs</span></span><span class="shortcut-row"><kbd>Ctrl+Z</kbd><span>undo</span></span><span class="shortcut-row"><kbd>F</kbd><span>material cost</span></span></p>
       <p data-i18n="controlsLine3"><kbd>1-9</kbd> / <kbd>& é " '</kbd> : floors · <kbd>Space</kbd> + left drag : pan · wheel : zoom</p>
     </div>
   </div>
@@ -945,6 +986,16 @@ window.addEventListener("keydown",e=>{
   if(k==="s")setMode("square");
   if(k==="t")setMode("tri");
   if(k==="a")setMode("stair");
+  if(k==="d"){
+    e.preventDefault();
+    if(typeof toggleSelectionMode === "function"){
+      if(!selectionMode) toggleSelectionMode();
+      else setMode("select");
+    }else{
+      setMode("select");
+    }
+    return;
+  }
   if(k==="e")setMode("erase");
   if(k==="r"){
     if(mode==="stair"){
@@ -1150,8 +1201,8 @@ const translations = {
     appIntroText:"Exiled Architect est un pré-builder local pour créer tes plans de bases Conan Exiles avec fondations carrées et triangulaires. Construis, teste, sauvegarde, exporte et partage tes layouts facilement.",
     square:"Carré", triangle:"Triangle", stairs:"Escalier", eraser:"Gomme", forcePlace:"Forcer placement", selectMode:"Sélection", symmetry:"Symétrie OFF", exportPng:"Export PNG", shareCommunity:"Partager communauté", logoToggle:"Logo ON", downloadApp:"Télécharger App", resetView:"Reset vue", pan:"Déplacer", undo:"Annuler", clear:"Vider",
     sizeLabel:"Taille",
-    controlsLine1:"S: carré · T: triangle · A: escalier · E: gomme",
-    controlsLine2:"Ctrl+Z: annuler · F: coût matériaux",
+    controlsLine1:`<span class="shortcut-row"><kbd>D</kbd><span>select</span></span><span class="shortcut-row"><kbd>S</kbd><span>square</span></span><span class="shortcut-row"><kbd>T</kbd><span>triangle</span></span><span class="shortcut-row"><kbd>A</kbd><span>stairs</span></span><span class="shortcut-row"><kbd>E</kbd><span>eraser</span></span>`,
+    controlsLine2:`<span class="shortcut-row"><kbd>R</kbd><span>rotate stairs</span></span><span class="shortcut-row"><kbd>Ctrl+Z</kbd><span>undo</span></span><span class="shortcut-row"><kbd>F</kbd><span>material cost</span></span>`,
     controlsLine3:"Espace + clic gauche glissé : déplacer la vue · molette : zoom",
     advancedTitle:"Outils avancés",
     advancedText:"Mode Sélection : clique-glisse pour encadrer plusieurs pièces, puis Suppr pour supprimer le bloc. Mode Symétrie : place automatiquement une copie miroir autour de l’axe vertical du plan.",
@@ -1192,8 +1243,8 @@ const translations = {
     appIntroText:"Exiled Architect is a local pre-builder for creating Conan Exiles base plans with square and triangle foundations. Build, test, save, export, and share your layouts easily.",
     square:"Square", triangle:"Triangle", stairs:"Stairs", eraser:"Eraser", forcePlace:"Force place", selectMode:"Select", symmetry:"Symmetry OFF", exportPng:"Export PNG", shareCommunity:"Share community", logoToggle:"Logo ON", downloadApp:"Download App", resetView:"Reset view", pan:"Move", undo:"Undo", clear:"Clear",
     sizeLabel:"Size",
-    controlsLine1:"S: square · T: triangle · A: stairs · E: eraser",
-    controlsLine2:"Ctrl+Z: undo · F: material cost",
+    controlsLine1:"S: square · T: triangle · R: stairs · E: eraser",
+    controlsLine2:"R: rotate stairs · Ctrl+Z: undo · F: material cost",
     controlsLine3:"Space + left click drag: pan the view · mouse wheel: zoom",
     advancedTitle:"Advanced tools",
     advancedText:"Selection mode: click and drag to select several pieces, then press Delete to remove the block. Symmetry mode automatically places a mirrored copy around the plan’s vertical axis.",
@@ -1227,8 +1278,10 @@ function applyLanguage(){
     if(translations[currentLang][key]) {
       if(key.startsWith("controlsLine")) {
         el.innerHTML = translations[currentLang][key]
+          .replace("D:", "<kbd>D</kbd> :")
           .replace("S:", "<kbd>S</kbd> :")
           .replace("T:", "<kbd>T</kbd> :")
+          .replace("A:", "<kbd>A</kbd> :")
           .replace("R:", "<kbd>R</kbd> :")
           .replace("E:", "<kbd>E</kbd> :")
           .replace("Ctrl+Z:", "<kbd>Ctrl+Z</kbd> :")
